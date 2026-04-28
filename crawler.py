@@ -89,52 +89,87 @@ def save_papers(papers: List[Dict]):
     print(f"论文数据已保存到 {PAPERS_FILE}")
 
 
-def generate_markdown(papers: List[Dict]):
-    """生成Markdown文件用于GitHub Pages"""
+def generate_html(papers: List[Dict]):
+    """生成静态HTML文件用于GitHub Pages"""
     os.makedirs("docs", exist_ok=True)
     
-    md_content = """---
-layout: default
-title: AI Testing Papers
----
-
-# AI Testing Papers Collection
-
-> 自动从arXiv爬取的AI测试相关论文，每日更新
-
-最后更新: {date}
-
-共收录: **{count}** 篇论文
-
----
-
-## 论文列表
-
+    html_content = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Testing Papers Collection</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        .subtitle { color: #7f8c8d; font-size: 1.1em; }
+        .meta { color: #95a5a6; font-size: 0.9em; margin-top: 15px; }
+        .paper-list { list-style: none; }
+        .paper-item { background: white; padding: 25px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .paper-title { font-size: 1.2em; color: #2c3e50; margin-bottom: 15px; }
+        .paper-title a { color: #3498db; text-decoration: none; }
+        .paper-title a:hover { text-decoration: underline; }
+        .paper-meta { font-size: 0.9em; color: #7f8c8d; margin-bottom: 10px; }
+        .paper-meta span { margin-right: 15px; }
+        .paper-summary { color: #555; font-size: 0.95em; }
+        .tag { display: inline-block; background: #e7f5ff; color: #0969da; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 5px; }
+        footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #95a5a6; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Testing Papers Collection</h1>
+            <p class="subtitle">自动从arXiv爬取的AI测试相关论文，每日更新</p>
+            <div class="meta">
+                <span>最后更新: {date}</span>
+                <span>|</span>
+                <span>共收录: <strong>{count}</strong> 篇论文</span>
+            </div>
+        </header>
+        
+        <div class="paper-list">
 """.format(
         date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         count=len(papers)
     )
     
     for i, paper in enumerate(papers, 1):
-        md_content += f"""
-### {i}. {paper['title']}
-
-- **arXiv ID**: [{paper['id']}]({paper['arxiv_url']})
-- **PDF**: [下载]({paper['pdf_url']})
-- **发布日期**: {paper['published']}
-- **作者**: {', '.join(paper['authors'][:3])}{'...' if len(paper['authors']) > 3 else ''}
-- **分类**: {', '.join(paper['categories'][:3])}
-
-{paper['summary'][:300]}...
-
----
-
+        html_content += f"""
+            <div class="paper-item">
+                <h2 class="paper-title"><a href="{paper['arxiv_url']}" target="_blank">{i}. {paper['title']}</a></h2>
+                <div class="paper-meta">
+                    <span><strong>arXiv ID:</strong> <a href="{paper['arxiv_url']}" target="_blank">{paper['id']}</a></span>
+                    <span><strong>PDF:</strong> <a href="{paper['pdf_url']}" target="_blank">下载</a></span>
+                    <span><strong>发布日期:</strong> {paper['published']}</span>
+                </div>
+                <div class="paper-meta">
+                    <span><strong>作者:</strong> {', '.join(paper['authors'][:3])}{'...' if len(paper['authors']) > 3 else ''}</span>
+                </div>
+                <div class="paper-meta">
+                    <strong>分类:</strong> {''.join(f'<span class="tag">{cat}</span>' for cat in paper['categories'][:3])}
+                </div>
+                <p class="paper-summary">{paper['summary'][:300]}...</p>
+            </div>
 """
     
-    with open("docs/index.md", "w", encoding="utf-8") as f:
-        f.write(md_content)
+    html_content += """
+        </div>
+        
+        <footer>
+            <p>数据来源: arXiv | 自动更新</p>
+        </footer>
+    </div>
+</body>
+</html>"""
     
-    print(f"Markdown文件已生成到 docs/index.md")
+    with open("docs/index.html", "w", encoding="utf-8") as f:
+        f.write(html_content)
+    
+    print(f"HTML文件已生成到 docs/index.html")
 
 
 def main():
@@ -146,7 +181,7 @@ def main():
     
     if papers:
         save_papers(papers)
-        generate_markdown(papers)
+        generate_html(papers)
         print("\n爬取完成！")
     else:
         print("\n未找到任何论文")
