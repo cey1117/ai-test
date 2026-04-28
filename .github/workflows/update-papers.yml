@@ -25,9 +25,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install arxiv
 
       - name: Run crawler
         run: python crawler.py
