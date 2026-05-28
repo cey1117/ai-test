@@ -142,8 +142,8 @@ def generate_html(papers: List[Dict]):
     
     <div class="container">
         <div class="nav-links">
-            <a href="/ai-test/">🏠 首页</a>
-            <a href="/ai-test/{date}/papers">📄 今日论文</a>
+            <a href="../index.html">🏠 首页</a>
+            <a href="papers.html">📄 今日论文</a>
         </div>
         
         <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 1.5em;">📚 论文列表</h2>
@@ -241,7 +241,7 @@ def generate_index(papers: List[Dict], today: str):
         <div class="meta">
             <span>🔄 每日自动更新</span>
         </div>
-        <a href="/ai-test/{today}/papers" class="btn-primary">📖 查看今日论文</a>
+        <a href="{today}/papers.html" class="btn-primary">📖 查看今日论文</a>
     </header>
     
     <div class="container">
@@ -288,7 +288,7 @@ def generate_index(papers: List[Dict], today: str):
             <h2 class="section-title">📚 归档</h2>
             <ul class="archive-list">
                 <li class="archive-item">
-                    <a href="/ai-test/{today}/papers" class="archive-link">📄 {today} - 今日更新</a>
+                    <a href="{today}/papers.html" class="archive-link">📄 {today} - 今日更新</a>
                     <span class="archive-count">{count} 篇</span>
                 </li>
             </ul>
