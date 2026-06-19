@@ -1,0 +1,46 @@
+{
+  "last_updated": "2026-06-19 03:27:51",
+  "count": 5,
+  "tickers": [
+    {
+      "inst_id": "BTC-USDT",
+      "last": 95849.43,
+      "high24h": 97491.07,
+      "low24h": 95438.58,
+      "vol24h": 49345.729,
+      "pct_chg": -3.28
+    },
+    {
+      "inst_id": "ETH-USDT",
+      "last": 3203.39,
+      "high24h": 3198.27,
+      "low24h": 3189.82,
+      "vol24h": 14401.7451,
+      "pct_chg": -4.22
+    },
+    {
+      "inst_id": "SOL-USDT",
+      "last": 179.63,
+      "high24h": 183.84,
+      "low24h": 177.7,
+      "vol24h": 24269.0472,
+      "pct_chg": -3.13
+    },
+    {
+      "inst_id": "DOGE-USDT",
+      "last": 0.35,
+      "high24h": 0.36,
+      "low24h": 0.35,
+      "vol24h": 32961.2152,
+      "pct_chg": -1.98
+    },
+    {
+      "inst_id": "XRP-USDT",
+      "last": 2.5,
+      "high24h": 2.54,
+      "low24h": 2.48,
+      "vol24h": 36728.0033,
+      "pct_chg": 3.17
+    }
+  ]
+}
